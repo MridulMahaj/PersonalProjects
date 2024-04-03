@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEART 3D MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="demo-styles.css">
+    <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
+    <style>
+        /* Your existing CSS styles */
+        #highlight-input {
+            margin-bottom: 20px;
+            padding: 5px;
+            width: calc(100% - 90px);
+        }
+
+        #reset-button {
+            padding: 5px 10px;
+            width: 50px;
+        }
+
+        .highlighted .HotspotAnnotation {
+            background-color: red !important;
+            color: white !important;
+            border: 1px solid red !important; /* Add border to highlighted button */
+        }
+
+        .HotspotAnnotation {
+            background-color: white;
+            color: black;
+            padding: 5px;
+        }
+
+        /* Card styling */
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin-top: 10px;
+            text-align: left; /* Align text to the left */
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .card p {
+            margin-bottom: 0;
+        }
+
+        #ar-button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #ar-prompt {
+            text-align: center;
+        }
+
+        #ar-prompt img {
+            max-width: 50px;
+        }
+        /* Center align the model */
+        model-viewer {
+            margin: 0 auto;
+            max-width: 400px; /* Set the maximum width */
+            width: 100%; /* Ensure the model viewer takes full width */
+        }
+    </style>
+</head>
+<body>
+    <div class="mycontainer">
+        <div id="card">
+            <input type="text" id="highlight-input" placeholder="Enter part name" />
+            <button id="reset-button">Reset</button>
+            <div class="side-by-side">
+                <model-viewer src="Beating heart.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce" shadow-intensity="1" autoplay environment-image="legacy" camera-orbit="0deg 75deg 0.4074m" field-of-view="30deg">
+                    <button class="Hotspot" slot="hotspot-1" data-surface="0 0 3702 3711 3700 0.650 0.225 0.125" data-visibility-attribute="visible">
+                        <div class="HotspotAnnotation">Aorta</div>
+                    </button>
+                    <!-- Other hotspot buttons -->
+                    <div class="progress-bar hide" slot="progress-bar">
+                        <div class="update-bar"></div>
+                    </div>
+                    <button slot="ar-button" id="ar-button">View in your space</button>
+                    <div id="ar-prompt">
+                        <img src="https://modelviewer.dev/shared-assets/icons/hand.png" />
+                    </div>
+                </model-viewer>
+            </div>
+            <div id="part-info"></div>
+        </div>
+    </div>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script>
+        const modelViewer = document.querySelector("model-viewer");
+
+        const annotationClicked = (annotation) => {
+            let dataset = annotation.dataset;
+            modelViewer.cameraTarget = dataset.position;
+            modelViewer.cameraOrbit = dataset.normal;
+            modelViewer.fieldOfView = "45deg";
+        };
+
+        const highlightPart = (Name) => {
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+                if (
+                    hotspot.querySelector(".HotspotAnnotation").textContent === Name
+                ) {
+                    hotspot.classList.add("highlighted");
+                    annotationClicked(hotspot);
+                    displayPartInfo(Name);
+                } else {
+                    hotspot.classList.remove("highlighted");
+                    hotspot.style.display = "none"; // Hide non-matching annotations
+                }
+            });
+        };
+
+        const displayPartInfo = (partName) => {
+            const partInfo = {
+                "Aorta": `
+                    The aorta is the largest artery in the body, originating from the left ventricle of the heart and extending down into the abdomen, where it branches off into smaller arteries. It plays a crucial role in the circulatory system, carrying oxygen-rich blood away from the heart to various parts of the body. The aorta is divided into several segments, including the ascending aorta, aortic arch, and descending aorta. The walls of the aorta are thick and elastic, allowing it to expand and contract with each heartbeat, which helps to maintain blood pressure and ensure a steady flow of blood throughout the body. The aorta also has a network of smaller arteries, called the vasa vasorum, that supply blood to its own walls. However, the aorta is prone to several conditions, including aortic aneurysms and aortic dissections, which can be life-threatening if not treated promptly. Regular exercise, a healthy diet, and avoiding smoking can help maintain the health of the aorta and reduce the risk of these conditions`,
+                // Include information for other parts
+            };
+
+            // Create a card with the information
+            let card = document.createElement("div");
+            card.classList.add("card");
+
+            let title = document.createElement("h3");
+            title.innerText = partName;
+            card.appendChild(title);
+
+            let info = document.createElement("p");
+            info.innerText = partInfo[partName] || "No information available";
+            card.appendChild(info);
+
+            // Clear previous card content
+            let partInfoDiv = document.getElementById("part-info");
+            partInfoDiv.innerHTML = "";
+            // Append the new card
+            partInfoDiv.appendChild(card);
+        };
+
+        document
+            .getElementById("highlight-input")
+            .addEventListener("input", (event) => {
+                let Name = event.target.value;
+                modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+                    hotspot.style.display = "block"; // Show all annotations
+                });
+                highlightPart(Name);
+            });
+
+        document
+            .getElementById("reset-button")
+            .addEventListener("click", () => {
+                document.getElementById("highlight-input").value = ""; // Clear the input field
+                modelViewer.cameraOrbit = "0deg 75deg 2m"; // Reset camera position
+                modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+                    hotspot.classList.remove("highlighted"); // Reset all annotations
+                    hotspot.style.display = "block"; // Show all annotations
+                });
+            });
+    </script>
+</body>
+</html>

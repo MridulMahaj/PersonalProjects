@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BACKBONE MAIN 3D MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="demo-styles.css" />
+    <script
+      src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js"
+      defer
+    ></script>
+    <style>
+      #highlight-input {
+            margin-bottom: 20px;
+            padding: 5px;
+            width: calc(100% - 90px);
+        }
+
+        #reset-button {
+            padding: 5px 10px;
+            width : 50px
+        }
+
+        .highlighted .HotspotAnnotation {
+            background-color: red !important;
+            color: white !important;
+            border: 1px solid red !important; /* Add border to highlighted button */
+        }
+
+        .HotspotAnnotation {
+            background-color: white;
+            color: black;
+            padding: 5px;
+        }
+
+        /* Card styling */
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin-top: 10px;
+            text-align: left; /* Align text to the left */
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .card p {
+            margin-bottom: 0;
+        }
+
+        /* Center align the model */
+        model-viewer {
+            margin: 0 auto;
+            max-width: 400px; /* Set the maximum width */
+            width: 100%; /* Ensure the model viewer takes full width */
+        }
+    </style>
+  </head>
+  <body>
+    <div class="mycontainer">
+    <div id="card">
+      <input type="text" id="highlight-input" placeholder="Enter part name" />
+      <button id="reset-button">Reset</button>
+      <div class="side-by-side">
+      <model-viewer src="spine_collection_of_thunthu.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="1">
+        <button class="Hotspot" slot="hotspot-1" data-position="-2.752860139230436m 33.63850297421269m 0.11740345438353503m" data-normal="-0.21899951148852392m 0.44953396513891297m 0.8660014019355133m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Cervical Spine(C1-C7)</div>
+        </button><button class="Hotspot" slot="hotspot-2" data-position="-3.3576759175689057m 30.648956788204714m 0.13927380282742485m" data-normal="-0.2530542266444297m 0.18020359683707077m 0.9505210266292757m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Rib Facet</div>
+        </button><button class="Hotspot" slot="hotspot-3" data-position="-3.96753567633169m 27.21838574931307m 0.6225111944992736m" data-normal="0.2194848371255873m 0.13993992942621297m 0.9655274322483755m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Intervertebral discs</div>
+        </button><button class="Hotspot" slot="hotspot-4" data-position="-4.383047576346797m 21.67764756454608m 0.02948012737306749m" data-normal="-0.700217942698388m 0.3550491579167395m 0.6193826992949119m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Intervertebral foreamen</div>
+        </button><button class="Hotspot" slot="hotspot-5" data-position="-3.186151911409765m 17.612167510593434m 0.16189438232111925m" data-normal="-0.4055654242380032m 0.4722990256682465m 0.7825920501867326m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Spinous Process</div>
+        </button><button class="Hotspot" slot="hotspot-6" data-position="-2.1866126371945502m 13.343743153865084m 0.17235914457362192m" data-normal="-0.15616951677755153m 0.1458873206850591m 0.9768971141797895m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Transverse process</div>
+        </button><button class="Hotspot" slot="hotspot-7" data-position="-0.7735105979594072m 10.589430435126136m 1.71658935622965m" data-normal="-0.30805557530808386m -0.241995680044892m 0.9200760041220594m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Sacrum</div>
+        </button><button class="Hotspot" slot="hotspot-8" data-position="-1.855396212688004m 8.48681859048903m 0.1243383537471292m" data-normal="0.7871889022130336m -0.14171003196409807m 0.6002098791867505m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Coccygeal</div>
+        </button>
+        <div class="progress-bar hide" slot="progress-bar">
+          <div class="update-bar"></div>
+        </div>
+      </model-viewer>
+        <button slot="ar-button" id="ar-button">View in your space</button>
+        <div id="ar-prompt">
+          <img src="https://modelviewer.dev/shared-assets/icons/hand.png" />
+        </div>
+      </model-viewer>
+      <!-- <span>Hello</span> -->
+      <div id="part-info"></div>
+    </div>
+  </div>
+    <div id="part-info"></div>
+      <script
+        type="module"
+        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+      ></script>
+      <script>
+        const modelViewer = document.querySelector("model-viewer");
+
+        const annotationClicked = (annotation) => {
+          let dataset = annotation.dataset;
+          modelViewer.cameraTarget = dataset.position;
+          modelViewer.cameraOrbit = dataset.normal;
+          modelViewer.fieldOfView = "45deg";
+        };
+
+        const highlightPart = (Name) => {
+          modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+            if (
+              hotspot.querySelector(".HotspotAnnotation").textContent === Name
+            ) {
+              hotspot.classList.add("highlighted");
+              annotationClicked(hotspot);
+              displayPartInfo(Name);
+            } else {
+              hotspot.classList.remove("highlighted");
+              hotspot.style.display = "none"; // Hide non-matching annotations
+            }
+          });
+        };
+
+           
+    const displayPartInfo = (partName) => {
+        const partInfo = {
+            "Cervical Spine(C1-C7) ": `
+
+            The cervical spine, consisting of the seven vertebrae labeled C1 to C7, is the uppermost section of the spinal column located in the neck region. This region plays a vital role in supporting the head, allowing for a wide range of motion, and protecting the spinal cord. The first cervical vertebra, C1, known as the atlas, supports the skull and allows for nodding motion. The second vertebra, C2 or the axis, allows for rotation of the head. The remaining five vertebrae, C3 to C7, provide structural support and flexibility, enabling movements such as bending and turning of the neck. The cervical spine also houses the spinal cord, which is responsible for transmitting messages between the brain and the rest of the body. Injuries or conditions affecting the cervical spine can have serious consequences, including pain, stiffness, and in severe cases, paralysis. Proper care and attention to this region are essential for maintaining overall health and mobility.`,
+
+            "Rib Facet": `The rib facet, also known as the costal facet, is a small, flat surface found on the transverse process of a thoracic vertebra. These facets are located on both sides of the vertebrae and articulate with the head of the rib, forming joints called the costovertebral joints. The rib facets are essential for the stability and mobility of the thoracic spine, as they allow for the rib cage to move during breathing and other activities. The shape and orientation of the rib facets vary depending on their location in the thoracic spine, with those in the upper thoracic region being more horizontal, allowing for more movement, while those in the lower thoracic region are more vertical, providing greater stability. Dysfunction or misalignment of the rib facets can lead to pain, restricted movement, and other spinal issues, highlighting their importance in the overall function of the thoracic spine.`,
+
+            "Intervertebral discs": `
+
+            Intervertebral discs are rubbery cushions located between the vertebrae of the spine. They act as shock absorbers, helping to cushion the spine from impact and allowing it to bend and flex. Each disc consists of a tough outer layer called the annulus fibrosus and a gel-like inner core called the nucleus pulposus. The annulus fibrosus is made up of layers of fibrous tissue that surround and contain the nucleus pulposus. The nucleus pulposus is a jelly-like substance that contains a network of collagen fibers suspended in a mucoprotein gel. This structure gives the disc its elasticity and allows it to absorb and distribute pressure evenly across the spine. Over time, the discs can degenerate due to wear and tear, leading to conditions such as herniated discs or degenerative disc disease. Treatment for disc-related issues can range from conservative methods such as physical therapy and medication to more invasive options like surgery. Proper posture, regular exercise, and maintaining a healthy weight can help prevent disc problems and keep the spine healthy.`,
+
+            "Intervertebral foramen": `
+
+            The intervertebral foramen, also known as the neural foramen or spinal foramen, is a crucial structure found between adjacent vertebrae in the spine. These foramina are openings that allow spinal nerves to exit the spinal cord and travel to other parts of the body, such as muscles and organs. Each intervertebral foramen is formed by the notches on the sides of two adjacent vertebrae coming together. These foramina provide a pathway for the spinal nerves to communicate with the rest of the body, transmitting sensory and motor information. Any narrowing or compression of the intervertebral foramina can lead to a condition known as foraminal stenosis, which can cause pain, weakness, and numbness in the areas of the body served by the affected nerves.`,
+
+            "Spinous Process": `
+
+            The spinous process is a bony projection located on the posterior aspect of each vertebra in the spine. It is a prominent feature that can be felt along the back of the neck and down the middle of the back. The spinous process serves as an attachment point for muscles and ligaments that help support and move the spine. These muscles and ligaments play a crucial role in maintaining proper posture and allowing for various movements of the spine, such as bending, twisting, and extending. The size and shape of the spinous process vary depending on its location in the spine and the individual's anatomy. In some cases, abnormalities in the spinous process can occur, such as a fracture or a bony outgrowth called a bone spur, which can cause pain and other symptoms.`
+,
+            "Transverse process": `
+
+            The transverse processes are bony projections that extend laterally from the vertebral arch of a vertebra. They serve as attachment points for muscles and ligaments that support and stabilize the spine. The transverse processes vary in size and shape depending on the location in the spine; for example, they are shorter and more robust in the lumbar spine compared to the cervical spine. These processes play a crucial role in the movement and stability of the spine, especially in activities that involve twisting or bending. In cases of trauma or certain medical conditions, such as fractures or tumors, the transverse processes can be affected, leading to pain and dysfunction. Understanding the anatomy and function of the transverse processes is essential for diagnosing and treating spinal disorders effectively.`,
+
+            "Sacrum": `
+
+            The sacrum is a triangular bone located at the base of the spine, between the two hip bones of the pelvis. It consists of five fused vertebrae and forms the back wall of the pelvis. The sacrum plays a crucial role in providing structural support and stability to the spine and pelvis. It also serves as a strong foundation for the weight of the upper body, transferring it to the pelvis and lower limbs during activities such as standing, walking, and running. The sacrum forms joints with the hip bones, known as the sacroiliac joints, which are important for stability and load transmission between the spine and the pelvis. Additionally, the sacrum houses the sacral canal, which contains the sacral nerves that innervate the lower limbs and pelvic organs, playing a vital role in controlling bowel, bladder, and sexual function.`,
+
+            "Coccygeal":`
+The coccygeal region, or coccyx, is the triangular bone located at the base of the spine, below the sacrum. It is also commonly referred to as the tailbone, as it is considered the vestigial remnant of a tail in humans. The coccyx consists of three to five fused vertebrae and plays a role in supporting the body in a seated position. It also serves as an attachment point for various muscles, tendons, and ligaments, including those of the pelvic floor. Despite its small size and seemingly insignificant function, the coccyx can be the source of significant pain and discomfort if injured or inflamed. Conditions such as coccydynia, or coccygeal pain, can result from trauma, childbirth, or prolonged sitting, leading to pain and tenderness in the tailbone area. Treatment for coccygeal pain typically involves conservative measures such as rest, cushioning the area, and pain management techniques. In severe cases, surgical intervention may be necessary to alleviate symptoms and restore function.`
+
+        };
+
+        // Create a card with the information
+        let card = document.createElement("div");
+        card.classList.add("card");
+
+        let title = document.createElement("h3");
+        title.innerText = partName;
+        card.appendChild(title);
+
+        let info = document.createElement("p");
+        info.innerText = partInfo[partName] || "No information available";
+        card.appendChild(info);
+
+        // Clear previous card content
+        let partInfoDiv = document.getElementById("part-info");
+        partInfoDiv.innerHTML = "";
+        // Append the new card
+        partInfoDiv.appendChild(card);
+    };
+
+
+        document
+          .getElementById("highlight-input")
+          .addEventListener("input", (event) => {
+            let Name = event.target.value;
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.style.display = "block"; // Show all annotations
+            });
+            highlightPart(Name);
+          });
+
+        document
+          .getElementById("reset-button")
+          .addEventListener("click", () => {
+            document.getElementById("highlight-input").value = ""; // Clear the input field
+            modelViewer.cameraOrbit = "0deg 75deg 2m"; // Reset camera position
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.classList.remove("highlighted"); // Reset all annotations
+              hotspot.style.display = "block"; // Show all annotations
+            });
+          });
+      </script>
+    </div>
+  </body>
+</html>

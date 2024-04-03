@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FULL BODY 3D MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="demo-styles.css" />
+    <script
+      src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js"
+      defer
+    ></script>
+    <style>
+      #highlight-input {
+        margin-bottom: 20px;
+        padding: 5px;
+        width: calc(100% - 90px);
+      }
+      #reset-button {
+        padding: 5px 10px;
+        margin-left: 5px;
+      }
+      .highlighted .HotspotAnnotation {
+        background-color: red !important;
+        color: white !important;
+        border: 1px solid red !important; /* Add border to highlighted button */
+      }
+      .HotspotAnnotation {
+        background-color: white;
+        color: black;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="card">
+      <input type="text" id="highlight-input" placeholder="Enter part name" />
+      <button id="reset-button">Reset</button>
+      <model-viewer src="splanchnology.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="1">
+        
+    </model-viewer>
+    
+      <script
+        type="module"
+        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+      ></script>
+      <script>
+        const modelViewer = document.querySelector("model-viewer");
+
+        const annotationClicked = (annotation) => {
+          let dataset = annotation.dataset;
+          modelViewer.cameraTarget = dataset.position;
+          modelViewer.cameraOrbit = dataset.normal;
+          modelViewer.fieldOfView = "45deg";
+        };
+
+        const highlightPart = (Name) => {
+          modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+            if (
+              hotspot.querySelector(".HotspotAnnotation").textContent === Name
+            ) {
+              hotspot.classList.add("highlighted");
+              annotationClicked(hotspot);
+            } else {
+              hotspot.classList.remove("highlighted");
+              hotspot.style.display = "none"; // Hide non-matching annotations
+            }
+          });
+        };
+
+        document
+          .getElementById("highlight-input")
+          .addEventListener("input", (event) => {
+            let Name = event.target.value;
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.style.display = "block"; // Show all annotations
+            });
+            highlightPart(Name);
+          });
+
+        document
+          .getElementById("reset-button")
+          .addEventListener("click", () => {
+            document.getElementById("highlight-input").value = ""; // Clear the input field
+            modelViewer.cameraOrbit = "0deg 75deg 2m"; // Reset camera position
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.classList.remove("highlighted"); // Reset all annotations
+              hotspot.style.display = "block"; // Show all annotations
+            });
+          });
+      </script>
+    </div>
+  </body>
+</html>

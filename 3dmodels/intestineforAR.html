@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>INTESTINE 3D MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="demo-styles.css" />
+    <script
+      src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js"
+      defer
+    ></script>
+    <style>
+      #highlight-input {
+        margin-bottom: 20px;
+        padding: 5px;
+        width: calc(100% - 90px);
+      }
+      #reset-button {
+        padding: 5px 10px;
+        margin-left: 5px;
+      }
+      .highlighted .HotspotAnnotation {
+        background-color: red !important;
+        color: white !important;
+        border: 1px solid red !important; /* Add border to highlighted button */
+      }
+      .HotspotAnnotation {
+        background-color: white;
+        color: black;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="card">
+      <input type="text" id="highlight-input" placeholder="Enter part name" />
+      <button id="reset-button">Reset</button>
+      <model-viewer src="https://cdn.glitch.global/7e914bde-0384-4e55-9a0e-b09de95dd513/small_and_large_intestine.glb?v=1712062136232" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="1" autoplay environment-image="legacy" camera-orbit="0deg 75deg 0.4074m" field-of-view="30deg">
+        <button class="Hotspot" slot="hotspot-1" data-position="0.3600311490369704m 1.05340895730185m 0.07144323459389315m" data-normal="0.19051876944278529m -0.3464154128335105m 0.9185308705979323m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Duodenum</div>
+        </button><button class="Hotspot" slot="hotspot-2" data-position="-0.07117861858860064m -0.1897480123670806m 0.10389838901115739m" data-normal="-0.6315633979095419m -0.08094836018226671m 0.7710869194875218m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Cecum</div>
+        <button class="Hotspot" slot="hotspot-4" data-position="0.711066613463653m 0.4151592043394125m 0.08821304323159862m" data-normal="-0.21096580593680164m -0.2520955979452541m 0.9444264069910692m" data-visibility-attribute="visible">
+                <div class="HotspotAnnotation">Jejunum</div>
+        </button><button class="Hotspot" slot="hotspot-5" data-position="0.3909447445598333m 0.05375727397936375m 0.11748904836126897m" data-normal="0.4085226217682705m -0.008409856037531957m 0.9127094509344179m" data-visibility-attribute="visible">
+                <div class="HotspotAnnotation">Ileum</div>
+        </button><button class="Hotspot" slot="hotspot-7" data-position="1.1851591743638723m 0.435806818205864m -0.06091186983095388m" data-normal="0.25760345126164147m -0.0978997148177914m 0.9612783716159885m" data-visibility-attribute="visible">
+                <div class="HotspotAnnotation">Large Intestine</div>
+        </button>
+        <button class="Hotspot" slot="hotspot-10" data-position="-0.08293603814410339m 0.1888444917635413m 0.0449159463877938m" data-normal="-0.3029350326745188m -0.0544348988858179m 0.9514553104385824m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Small Intestine</div>
+        </button>
+        <button class="Hotspot" slot="hotspot-12" data-position="0.566829184509616m -0.6816630855486161m -0.2845144719866297m" data-normal="-0.5729329785679725m -0.1552765570518877m 0.8047589657154142m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Anus</div>
+        </button>
+        <button class="Hotspot" slot="hotspot-14" data-position="0.5436462636105622m -0.4330436924153366m -0.20896575697977152m" data-normal="-0.30804359663024133m -0.6440595527966388m 0.7002117072903729m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Rectum</div>
+        </button>
+        <div class="progress-bar hide" slot="progress-bar">
+            <div class="update-bar"></div>
+        </div>
+    </model-viewer>    
+        <div class="progress-bar hide" slot="progress-bar">
+          <div class="update-bar"></div>
+        </div>
+        <button slot="ar-button" id="ar-button">View in your space</button>
+        <div id="ar-prompt">
+          <img src="https://modelviewer.dev/shared-assets/icons/hand.png" />
+        </div>
+      </model-viewer>
+      <script
+        type="module"
+        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+      ></script>
+      <script>
+        const modelViewer = document.querySelector("model-viewer");
+
+        const annotationClicked = (annotation) => {
+          let dataset = annotation.dataset;
+          modelViewer.cameraTarget = dataset.position;
+          modelViewer.cameraOrbit = dataset.normal;
+          modelViewer.fieldOfView = "45deg";
+        };
+
+        const highlightPart = (Name) => {
+          modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+            if (
+              hotspot.querySelector(".HotspotAnnotation").textContent === Name
+            ) {
+              hotspot.classList.add("highlighted");
+              annotationClicked(hotspot);
+            } else {
+              hotspot.classList.remove("highlighted");
+              hotspot.style.display = "none"; // Hide non-matching annotations
+            }
+          });
+        };
+
+        document
+          .getElementById("highlight-input")
+          .addEventListener("input", (event) => {
+            let Name = event.target.value;
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.style.display = "block"; // Show all annotations
+            });
+            highlightPart(Name);
+          });
+
+        document
+          .getElementById("reset-button")
+          .addEventListener("click", () => {
+            document.getElementById("highlight-input").value = ""; // Clear the input field
+            modelViewer.cameraOrbit = "0deg 75deg 2m"; // Reset camera position
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.classList.remove("highlighted"); // Reset all annotations
+              hotspot.style.display = "block"; // Show all annotations
+            });
+          });
+      </script>
+    </div>
+  </body>
+</html>

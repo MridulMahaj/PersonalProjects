@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BRAIN MAIN 3D MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="demo-styles.css" />
+    <script
+      src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js"
+      defer
+    ></script>
+    <style>
+      #highlight-input {
+        margin-bottom: 20px;
+        padding: 5px;
+        width: calc(100% - 90px);
+      }
+
+      #reset-button {
+        padding: 5px 10px;
+        margin-left: 5px;
+      }
+
+      .highlighted .HotspotAnnotation {
+        background-color: red !important;
+        color: white !important;
+        border: 1px solid red !important; /* Add border to highlighted button */
+      }
+
+      .HotspotAnnotation {
+        background-color: white;
+        color: black;
+        padding: 5px;
+      }
+
+      /* Card styling */
+      .card {
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        margin-top: 10px;
+        text-align: left; /* Align text to the left */
+      }
+
+      .card h3 {
+        margin-top: 0;
+        color: #333;
+      }
+
+      .card p {
+        margin-bottom: 0;
+      }
+
+      /* Center align the model */
+      model-viewer {
+        margin: 0 auto;
+        max-width: 400px; /* Set the maximum width */
+        width: 100%; /* Ensure the model viewer takes full width */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mycontainer">
+      <div id="card">
+        <input type="text" id="highlight-input" placeholder="Enter part name" />
+        <button id="reset-button">Reset</button>
+        <div class="side-by-side">
+          <model-viewer
+            src="Brain1.glb"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            camera-controls
+            tone-mapping="commerce"
+            shadow-intensity="1"
+          >
+            <button
+              class="Hotspot"
+              slot="hotspot-2"
+              data-position="0.12285430091538463m 0.134205664705885m -0.3621027134469438m"
+              data-normal="0.27473403822723647m -0.5623075328233703m -0.7799560543834826m"
+              data-visibility-attribute="visible"
+            >
+              <div class="HotspotAnnotation">Cerebellum</div>
+            </button>
+            <button
+              class="Hotspot"
+              slot="hotspot-3"
+              data-position="0.14331785984326176m 0.7046582555883889m 0.3883417919149327m"
+              data-normal="-0.003365238988293912m 0.5888552504805048m 0.8082315071488453m"
+              data-visibility-attribute="visible"
+            >
+              <div class="HotspotAnnotation">Left Cerebral Hemisphere</div>
+            </button>
+            <button
+              class="Hotspot"
+              slot="hotspot-5"
+              data-position="-0.24794339529791026m 0.6735067319664574m 0.30335171345630785m"
+              data-normal="-0.5138601028133606m 0.7494526348170489m 0.417454839356817m"
+              data-visibility-attribute="visible"
+            >
+              <div class="HotspotAnnotation">Right Cerebral Hemisphere</div>
+            </button>
+            <button
+              class="Hotspot"
+              slot="hotspot-6"
+              data-position="-0.004382603174603983m 0.2645489633831153m 0.05062304707479767m"
+              data-normal="0.16033782377855693m -0.5107281727159404m 0.8446588162448747m"
+              data-visibility-attribute="visible"
+            >
+              <div class="HotspotAnnotation">Pons</div>
+            </button>
+            <button
+              class="Hotspot"
+              slot="hotspot-7"
+              data-position="0.007802368471320403m 0.06787146626515983m 0.02252883614316817m"
+              data-normal="-0.06961985177756191m -0.06468825790364433m 0.9954740104733333m"
+              data-visibility-attribute="visible"
+            >
+              <div class="HotspotAnnotation">Medulla Oblongata</div>
+            </button>
+            <button
+              class="Hotspot"
+              slot="hotspot-8"
+              data-position="-0.007289017490416078m 0.40668704158147007m 0.085853888228306m"
+              data-normal="0.23386454408622515m -0.7513833118676101m 0.6170336244210716m"
+              data-visibility-attribute="visible"
+            >
+              <div class="HotspotAnnotation">Midbrain</div>
+            </button>
+            <div class="progress-bar hide" slot="progress-bar">
+              <div class="update-bar"></div>
+            </div>
+          </model-viewer>
+          <!-- <span>Hello</span> -->
+          <div id="part-info"></div>
+        </div>
+      </div>
+      <button slot="ar-button" id="ar-button">View in your space</button>
+      <div id="ar-prompt">
+          <img src="https://modelviewer.dev/shared-assets/icons/hand.png" />
+      </div>
+  </div>
+</div>
+      <script
+        type="module"
+        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+      ></script>
+      <script>
+        const modelViewer = document.querySelector("model-viewer");
+
+        const annotationClicked = (annotation) => {
+          let dataset = annotation.dataset;
+          modelViewer.cameraTarget = dataset.position;
+          modelViewer.cameraOrbit = dataset.normal;
+          modelViewer.fieldOfView = "45deg";
+        };
+
+        const highlightPart = (Name) => {
+          modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+            if (
+              hotspot.querySelector(".HotspotAnnotation").textContent === Name
+            ) {
+              hotspot.classList.add("highlighted");
+              annotationClicked(hotspot);
+              displayPartInfo(Name);
+            } else {
+              hotspot.classList.remove("highlighted");
+              hotspot.style.display = "none"; // Hide non-matching annotations
+            }
+          });
+        };
+
+        const displayPartInfo = (partName) => {
+          const partInfo = {
+            Cerebellum: `The cerebellum, often referred to as the "little brain," is a crucial part of the brain located at the back, below the cerebrum. Despite its small size, it contains about half of all the neurons in the brain. This part of the brain receives information from various sensory systems, the spinal cord, and other brain regions, processing it to coordinate voluntary movements like walking, talking, and writing. Additionally, the cerebellum plays a vital role in maintaining balance and posture by adjusting the body's position based on sensory input. Damage to the cerebellum can lead to issues with coordination, balance, and muscle tone. It is also involved in cognitive functions such as attention, language, and emotional regulation, making it a crucial component of our brain's functionality.`,
+
+            "Left Cerebral Hemisphere": `
+The left cerebral hemisphere is a critical part of the brain responsible for controlling a wide range of functions related to language, logic, and analytical thinking. It is connected to the right side of the body and plays a key role in processing information from the right visual field. The left hemisphere is typically dominant in right-handed individuals and is responsible for speech and language functions, including speech production and comprehension. It also controls fine motor skills on the right side of the body and is involved in tasks requiring sequential and logical processing, such as mathematics and problem-solving. Additionally, the left hemisphere is important for memory storage and retrieval, especially for verbal and factual information. Overall, the left cerebral hemisphere is crucial for many higher cognitive functions and plays a vital role in daily activities requiring language and analytical skills.`,
+
+            "Right Cerebral Hemisphere": `The right cerebral hemisphere is one of the two hemispheres that make up the human brain's cerebrum, located on the right side of the brain. It is primarily responsible for controlling the left side of the body and is involved in various functions such as spatial awareness, creativity, intuition, emotion, and facial recognition. The right hemisphere is known for its role in processing non-verbal and visual information, including recognizing faces, interpreting emotions, and understanding spatial relationships. It also plays a crucial role in music and artistic abilities, as well as in processing and understanding metaphors and other forms of abstract language. Additionally, the right hemisphere is involved in processing contextual information, enabling individuals to understand jokes, sarcasm, and other forms of non-literal language. Overall, the right cerebral hemisphere is essential for a wide range of cognitive and perceptual functions that contribute to our understanding of the world and our ability to interact with it effectively.`,
+
+            Pons: `The pons is a crucial part of the brainstem located above the medulla oblongata and below the midbrain. It serves as a bridge connecting various parts of the brain, including the cerebrum, cerebellum, and medulla. The pons plays a vital role in several key functions, such as regulating breathing, controlling sleep cycles, and conducting signals between different parts of the brain. It contains important nerve tracts that relay motor and sensory information between the brain and the rest of the body. Additionally, the pons is involved in controlling facial movements, including expressions and sensation. Damage to the pons can result in significant neurological deficits, impacting breathing, sleep patterns, and other essential functions`,
+
+            "Medulla Oblongata": `
+The medulla oblongata is a vital part of the brainstem located just above the spinal cord and below the pons. It plays a crucial role in regulating basic autonomic functions essential for survival, such as breathing, heart rate, and blood pressure. The medulla oblongata contains several important centers, including the cardiac center, which regulates heart rate, and the respiratory center, which controls breathing. Additionally, the medulla oblongata is involved in reflexes such as swallowing, coughing, and vomiting. It also serves as a relay station, transmitting signals between the brain and the spinal cord. Damage to the medulla oblongata can have severe consequences, potentially leading to respiratory failure, cardiovascular problems, and other life-threatening complications`,
+
+            Midbrain: `The midbrain, also known as the mesencephalon, is a small but critically important part of the brain located between the forebrain and the hindbrain. It plays a key role in functions such as movement, vision, hearing, and body temperature regulation. One of its most prominent features is the tectum, which includes the superior and inferior colliculi. The superior colliculi are involved in visual reflexes, such as directing eye movements towards a sudden visual stimulus, while the inferior colliculi are important for auditory processing, helping to localize the source of sounds. The midbrain also contains the substantia nigra, which is involved in motor control and contains dopamine-producing neurons that degenerate in Parkinson's disease. Additionally, the midbrain houses the red nucleus, which is involved in motor coordination, and the reticular formation, which plays a role in regulating arousal and consciousness. The midbrain serves as a crucial link between the brainstem and the higher brain regions, integrating sensory information and coordinating motor responses.`,
+          };
+
+          // Create a card with the information
+          let card = document.createElement("div");
+          card.classList.add("card");
+
+          let title = document.createElement("h3");
+          title.innerText = partName;
+          card.appendChild(title);
+
+          let info = document.createElement("p");
+          info.innerText = partInfo[partName] || "No information available";
+          card.appendChild(info);
+
+          // Clear previous card content
+          let partInfoDiv = document.getElementById("part-info");
+          partInfoDiv.innerHTML = "";
+          // Append the new card
+          partInfoDiv.appendChild(card);
+        };
+
+        document
+          .getElementById("highlight-input")
+          .addEventListener("input", (event) => {
+            let Name = event.target.value;
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.style.display = "block"; // Show all annotations
+            });
+            highlightPart(Name);
+          });
+
+        document
+          .getElementById("reset-button")
+          .addEventListener("click", () => {
+            document.getElementById("highlight-input").value = ""; // Clear the input field
+            modelViewer.cameraOrbit = "0deg 75deg 2m"; // Reset camera position
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.classList.remove("highlighted"); // Reset all annotations
+              hotspot.style.display = "block"; // Show all annotations
+            });
+          });
+      </script>
+    </div>
+  </body>
+</html>

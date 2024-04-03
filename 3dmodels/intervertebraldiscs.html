@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>INTERVERTEBRAL DISCS 3D MODEL</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="demo-styles.css">
+  <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
+</head>
+<body>
+  <div id="card">
+    <model-viewer src="spine_collection_of_thunthu.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce" shadow-intensity="1" camera-orbit="2.815deg 93.99deg 54.34m" field-of-view="30deg">
+        <button class="Hotspot" slot="hotspot-4" data-position="-4.536829691138358m 24.668547539499844m 1.240915956039954m" data-normal="-0.47842896295406384m -0.6974601125326458m 0.533530804014771m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Intervertebral discs</div>
+        </button>
+        <div class="progress-bar hide" slot="progress-bar">
+            <div class="update-bar"></div>
+        </div>
+        <button slot="ar-button" id="ar-button">
+            View in your space
+        </button>
+        <div id="ar-prompt">
+            <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
+        </div>
+    </model-viewer>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</body>
+</html>

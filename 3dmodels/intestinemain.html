@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMALL AND LARGE INTESTINE MAIN 3D MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="demo-styles.css" />
+    <script
+      src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js"
+      defer
+    ></script>
+    <style>
+     #highlight-input {
+            margin-bottom: 20px;
+            padding: 5px;
+            width: calc(100% - 90px);
+        }
+
+        #reset-button {
+            padding: 5px 10px;
+            width : 50px
+        }
+
+        .highlighted .HotspotAnnotation {
+            background-color: red !important;
+            color: white !important;
+            border: 1px solid red !important; /* Add border to highlighted button */
+        }
+
+        .HotspotAnnotation {
+            background-color: white;
+            color: black;
+            padding: 5px;
+        }
+
+        /* Card styling */
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin-top: 10px;
+            text-align: left; /* Align text to the left */
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .card p {
+            margin-bottom: 0;
+        }
+
+        /* Center align the model */
+        model-viewer {
+            margin: 0 auto;
+            max-width: 400px; /* Set the maximum width */
+            width: 100%; /* Ensure the model viewer takes full width */
+        }
+    </style>
+  </head>
+  <body>
+    <div class="mycontainer">
+    <div id="card">
+      <input type="text" id="highlight-input" placeholder="Enter part name" />
+      <button id="reset-button">Reset</button>
+      <div class="side-by-side">
+      <model-viewer src="small_and_large_intestine.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="1">
+        <button class="Hotspot" slot="hotspot-1" data-position="0.3600311490369704m 1.05340895730185m 0.07144323459389315m" data-normal="0.19051876944278529m -0.3464154128335105m 0.9185308705979323m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Duodenum</div>
+        </button><button class="Hotspot" slot="hotspot-2" data-position="-0.07117861858860064m -0.1897480123670806m 0.10389838901115739m" data-normal="-0.6315633979095419m -0.08094836018226671m 0.7710869194875218m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Cecum</div>
+        <button class="Hotspot" slot="hotspot-4" data-position="0.711066613463653m 0.4151592043394125m 0.08821304323159862m" data-normal="-0.21096580593680164m -0.2520955979452541m 0.9444264069910692m" data-visibility-attribute="visible">
+                <div class="HotspotAnnotation">Jejunum</div>
+        </button><button class="Hotspot" slot="hotspot-5" data-position="0.3909447445598333m 0.05375727397936375m 0.11748904836126897m" data-normal="0.4085226217682705m -0.008409856037531957m 0.9127094509344179m" data-visibility-attribute="visible">
+                <div class="HotspotAnnotation">Ileum</div>
+        </button><button class="Hotspot" slot="hotspot-7" data-position="1.1851591743638723m 0.435806818205864m -0.06091186983095388m" data-normal="0.25760345126164147m -0.0978997148177914m 0.9612783716159885m" data-visibility-attribute="visible">
+                <div class="HotspotAnnotation">Large Intestine</div>
+        </button>
+        <button class="Hotspot" slot="hotspot-10" data-position="-0.08293603814410339m 0.1888444917635413m 0.0449159463877938m" data-normal="-0.3029350326745188m -0.0544348988858179m 0.9514553104385824m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Small Intestine</div>
+        </button>
+        <button class="Hotspot" slot="hotspot-12" data-position="0.566829184509616m -0.6816630855486161m -0.2845144719866297m" data-normal="-0.5729329785679725m -0.1552765570518877m 0.8047589657154142m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Anus</div>
+        </button>
+        <button class="Hotspot" slot="hotspot-14" data-position="0.5436462636105622m -0.4330436924153366m -0.20896575697977152m" data-normal="-0.30804359663024133m -0.6440595527966388m 0.7002117072903729m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Rectum</div>
+        </button>
+        <div class="progress-bar hide" slot="progress-bar">
+          <div class="update-bar"></div>
+        </div>
+        <button slot="ar-button" id="ar-button">View in your space</button>
+        <div id="ar-prompt">
+          <img src="https://modelviewer.dev/shared-assets/icons/hand.png" />
+        </div>
+      </model-viewer>
+      <!-- <span>Hello</span> -->
+      <div id="part-info"></div>
+    </div>
+    </div>
+      <script
+        type="module"
+        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+      ></script>
+      <script>
+        const modelViewer = document.querySelector("model-viewer");
+
+        const annotationClicked = (annotation) => {
+          let dataset = annotation.dataset;
+          modelViewer.cameraTarget = dataset.position;
+          modelViewer.cameraOrbit = dataset.normal;
+          modelViewer.fieldOfView = "45deg";
+        };
+
+        const highlightPart = (Name) => {
+          modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+            if (
+              hotspot.querySelector(".HotspotAnnotation").textContent === Name
+            ) {
+              hotspot.classList.add("highlighted");
+              annotationClicked(hotspot);
+              displayPartInfo(Name);
+            } else {
+              hotspot.classList.remove("highlighted");
+              hotspot.style.display = "none"; // Hide non-matching annotations
+            }
+          });
+        };
+
+        
+        const displayPartInfo = (partName) => {
+        const partInfo = {
+            
+          "Duodenum": `
+The duodenum is the first part of the small intestine, connecting the stomach to the rest of the small intestine. It plays a critical role in digestion, where partially digested food from the stomach mixes with digestive juices from the pancreas and gallbladder. The pancreas secretes enzymes that break down carbohydrates, proteins, and fats, while the gallbladder releases bile, which helps emulsify fats for easier digestion. The duodenum also absorbs nutrients such as iron, calcium, and magnesium, as well as water and electrolytes. Despite its relatively short length, the duodenum is essential for the digestion and absorption of nutrients crucial for maintaining overall health.`,
+
+            "Cecum": `
+            The cecum is a pouch-like structure located at the beginning of the large intestine, where it connects to the small intestine. It is considered a vestigial organ in humans, meaning that it has lost most or all of its original function through evolution. In some animals, such as herbivores, the cecum is enlarged and plays a role in digesting cellulose, a tough plant material that is difficult to break down. However, in humans, the cecum is relatively small and has little to no digestive function. One important structure attached to the cecum is the appendix, a small, finger-like pouch that can become inflamed in a condition known as appendicitis. While the cecum itself does not have a significant role in digestion, it does play a minor role in absorbing fluids and salts from the digested food before it moves into the colon.`,
+
+            "Jejunum": `
+The jejunum is a vital part of the small intestine, playing a crucial role in the digestion and absorption of nutrients from food. Located between the duodenum and the ileum, the jejunum is responsible for further breaking down food particles into smaller molecules that can be absorbed by the body. It is characterized by its long length and numerous folds, known as plicae circulares, which increase its surface area for efficient absorption. The walls of the jejunum are lined with tiny finger-like projections called villi, which are covered in even smaller projections called microvilli. These structures greatly increase the surface area available for absorption, allowing for the efficient uptake of nutrients such as carbohydrates, proteins, fats, vitamins, and minerals. The jejunum also contains numerous glands that secrete digestive enzymes and mucus to aid in the digestion and absorption process. Overall, the jejunum plays a vital role in the digestive system, ensuring that the body receives the nutrients it needs to function properly.
+
+`,
+
+            "Ileum": `
+            The ileum is the final section of the small intestine, located between the jejunum and the large intestine. It plays a crucial role in the digestion and absorption of nutrients from food. The ileum is characterized by its extensive surface area, which is covered in tiny finger-like projections called villi. These villi are lined with even smaller projections called microvilli, which further increase the surface area available for absorption. The ileum absorbs nutrients such as vitamins, minerals, and bile salts, as well as water. It also plays a role in the immune system, as it contains specialized immune cells that help protect the body from pathogens. After passing through the ileum, undigested food particles and waste products move into the large intestine for further processing and eventual elimination from the body.
+
+           `,
+
+            "Large Intestine": `
+
+            The large intestine, also known as the colon, is a vital part of the digestive system responsible for absorbing water and electrolytes from undigested food matter to form solid waste, or stool. Located after the small intestine, the large intestine is about 5 feet long and 3 inches in diameter, comprising the cecum, colon, rectum, and anal canal. It plays a crucial role in the final stages of digestion, helping to process waste material for excretion while also hosting a large population of beneficial bacteria that aid in fermentation and the production of certain vitamins. The large intestine absorbs water and electrolytes from the undigested food material, transforming it from a liquid state into solid feces. The colon is divided into several parts, including the ascending colon, transverse colon, descending colon, and sigmoid colon, each with its specific functions in the digestive process. The large intestine ends at the rectum, where stool is stored until it is expelled through the anal canal during a bowel movement. Dysfunction of the large intestine can lead to various digestive issues, including constipation, diarrhea, and irritable bowel syndrome, highlighting its critical role in maintaining digestive health.
+            `,
+
+
+            "Small Intestine": `
+The small intestine is a vital organ in the digestive system, responsible for the majority of nutrient absorption in the body. It is a long, coiled tube measuring about 20 feet in length and is divided into three parts: the duodenum, the jejunum, and the ileum. The small intestine receives partially digested food from the stomach and continues the process of digestion by breaking down food particles further with the help of enzymes from the pancreas and bile from the liver. The walls of the small intestine are lined with tiny finger-like projections called villi, which increase the surface area available for nutrient absorption. The villi contain specialized cells that absorb nutrients such as sugars, amino acids, and fatty acids into the bloodstream. Any remaining undigested food passes into the large intestine for further processing. The small intestine plays a crucial role in maintaining the body's energy levels and overall health by ensuring that essential nutrients are absorbed efficiently.`,
+
+            "Anus": `
+
+            The anus is an important part of the digestive system, serving as the exit point for solid waste from the body. Located at the end of the digestive tract, it is a muscular opening that is controlled by two sets of muscles, known as the internal and external anal sphincters. The anus plays a crucial role in the process of defecation, where waste material, or feces, is expelled from the body. It is lined with sensitive skin and mucous membranes, which help to protect it from damage during the passage of feces. The anus is also rich in nerve endings, making it highly sensitive to touch and pressure. Disorders of the anus, such as hemorrhoids or anal fissures, can cause discomfort and pain, highlighting the importance of maintaining its health and hygiene.`,
+
+            "Rectum":`
+
+            
+The rectum is the final segment of the large intestine, connecting the colon to the anus. Its primary function is to store feces until they are expelled from the body during defecation. The rectum is located between the sigmoid colon and the anal canal and is approximately 12 to 15 centimeters long. It is a muscular organ that expands to accommodate stool and contracts to push feces out of the body. The rectal wall contains sensitive nerve endings that detect the presence of stool, triggering the urge to defecate. The rectum also plays a role in absorbing water and electrolytes from fecal material, helping to solidify it before elimination. Disorders of the rectum, such as hemorrhoids, rectal prolapse, or rectal cancer, can lead to symptoms such as rectal bleeding, pain, and changes in bowel habits. Treatment for rectal disorders varies depending on the underlying cause but may include dietary changes, medication, or surgery. Regular colorectal screenings can help detect and treat rectal conditions early, improving outcomes and quality of life.`
+
+        };
+
+        // Create a card with the information
+        let card = document.createElement("div");
+        card.classList.add("card");
+
+        let title = document.createElement("h3");
+        title.innerText = partName;
+        card.appendChild(title);
+
+        let info = document.createElement("p");
+        info.innerText = partInfo[partName] || "No information available";
+        card.appendChild(info);
+
+        // Clear previous card content
+        let partInfoDiv = document.getElementById("part-info");
+        partInfoDiv.innerHTML = "";
+        // Append the new card
+        partInfoDiv.appendChild(card);
+    };
+
+    document
+          .getElementById("highlight-input")
+          .addEventListener("input", (event) => {
+            let Name = event.target.value;
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.style.display = "block"; // Show all annotations
+            });
+            highlightPart(Name);
+          });
+
+          document
+  .getElementById("reset-button")
+  .addEventListener("click", () => {
+    document.getElementById("highlight-input").value = ""; // Clear the input field
+    
+    modelViewer.fieldOfView = "auto"; // Reset field of view
+    modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+      hotspot.classList.remove("highlighted"); // Reset all annotations
+      hotspot.style.display = "block"; // Show all annotations
+    });
+  });
+
+
+      </script>
+    </div>
+  </body>
+</html>

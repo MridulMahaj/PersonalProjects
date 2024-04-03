@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HEART 3D MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="demo-styles.css" />
+    <script
+      src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js"
+      defer
+    ></script>
+    <style>
+      #highlight-input {
+        margin-bottom: 20px;
+        padding: 5px;
+        width: calc(100% - 90px);
+      }
+      #reset-button {
+        padding: 5px 10px;
+        margin-left: 5px;
+      }
+      .highlighted .HotspotAnnotation {
+        background-color: red !important;
+        color: white !important;
+        border: 1px solid red !important; /* Add border to highlighted button */
+      }
+      .HotspotAnnotation {
+        background-color: white;
+        color: black;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="card">
+      <input type="text" id="highlight-input" placeholder="Enter part name" />
+      <button id="reset-button">Reset</button>
+      <model-viewer src="https://cdn.glitch.global/483637e0-ee9b-46d9-97ce-302d83e6cec5/Beating%20heart.glb?v=1711984805097" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="1" autoplay environment-image="legacy" camera-orbit="0deg 75deg 0.4074m" field-of-view="30deg">
+        <button class="Hotspot" slot="hotspot-1" data-surface="0 0 3702 3711 3700 0.650 0.225 0.125" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Aorta</div>
+        </button><button class="Hotspot" slot="hotspot-2" data-surface="0 0 16727 16697 16699 0.178 0.569 0.253" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Pulmonary Artery</div>
+        </button><button class="Hotspot" slot="hotspot-3" data-surface="0 0 15611 15429 15432 0.194 0.464 0.342" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Pulmonary Veins</div>
+        </button><button class="Hotspot" slot="hotspot-4" data-surface="0 0 6356 6357 6319 0.050 0.534 0.416" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Left Auricle</div>
+        </button><button class="Hotspot" slot="hotspot-5" data-surface="0 0 17401 17449 17435 0.631 0.043 0.326" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Left Ventricle</div>
+        </button><button class="Hotspot" slot="hotspot-6" data-surface="0 0 2392 2393 2391 0.087 0.896 0.017" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Right Ventricle</div>
+        </button><button class="Hotspot" slot="hotspot-7" data-surface="0 0 8735 8734 8736 0.018 0.806 0.176" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Right Auricle</div>
+        </button>
+        <div class="progress-bar hide" slot="progress-bar">
+            <div class="update-bar"></div>
+        </div>
+    </model-viewer>    
+        <div class="progress-bar hide" slot="progress-bar">
+          <div class="update-bar"></div>
+        </div>
+        <button slot="ar-button" id="ar-button">View in your space</button>
+        <div id="ar-prompt">
+          <img src="https://modelviewer.dev/shared-assets/icons/hand.png" />
+        </div>
+      </model-viewer>
+      <script
+        type="module"
+        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+      ></script>
+      <script>
+        const modelViewer = document.querySelector("model-viewer");
+
+        const annotationClicked = (annotation) => {
+          let dataset = annotation.dataset;
+          modelViewer.cameraTarget = dataset.position;
+          modelViewer.cameraOrbit = dataset.normal;
+          modelViewer.fieldOfView = "45deg";
+        };
+
+        const highlightPart = (Name) => {
+          modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+            if (
+              hotspot.querySelector(".HotspotAnnotation").textContent === Name
+            ) {
+              hotspot.classList.add("highlighted");
+              annotationClicked(hotspot);
+            } else {
+              hotspot.classList.remove("highlighted");
+              hotspot.style.display = "none"; // Hide non-matching annotations
+            }
+          });
+        };
+
+        document
+          .getElementById("highlight-input")
+          .addEventListener("input", (event) => {
+            let Name = event.target.value;
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.style.display = "block"; // Show all annotations
+            });
+            highlightPart(Name);
+          });
+
+        document
+          .getElementById("reset-button")
+          .addEventListener("click", () => {
+            document.getElementById("highlight-input").value = ""; // Clear the input field
+            modelViewer.cameraOrbit = "0deg 75deg 2m"; // Reset camera position
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.classList.remove("highlighted"); // Reset all annotations
+              hotspot.style.display = "block"; // Show all annotations
+            });
+          });
+      </script>
+    </div>
+  </body>
+</html>

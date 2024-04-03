@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BACKBONE MAIN MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="demo-styles.css" />
+    <script
+      src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js"
+      defer
+    ></script>
+    <style>
+      #highlight-input {
+        margin-bottom: 20px;
+        padding: 5px;
+        width: calc(100% - 90px);
+      }
+      #reset-button {
+        padding: 5px 10px;
+        margin-left: 5px;
+      }
+      .highlighted .HotspotAnnotation {
+        background-color: red !important;
+        color: white !important;
+        border: 1px solid red !important; /* Add border to highlighted button */
+      }
+      .HotspotAnnotation {
+        background-color: white;
+        color: black;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="card">
+      <input type="text" id="highlight-input" placeholder="Enter part name" />
+      <button id="reset-button">Reset</button>
+      <model-viewer src="https://cdn.glitch.global/7e914bde-0384-4e55-9a0e-b09de95dd513/spine_collection_of_thunthu.glb?v=1712062090229" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="1" autoplay environment-image="legacy" camera-orbit="0deg 75deg 0.4074m" field-of-view="30deg">
+        <button class="Hotspot" slot="hotspot-1" data-position="-2.752860139230436m 33.63850297421269m 0.11740345438353503m" data-normal="-0.21899951148852392m 0.44953396513891297m 0.8660014019355133m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Cervical Spine(C1-C7)</div>
+        </button><button class="Hotspot" slot="hotspot-2" data-position="-3.3576759175689057m 30.648956788204714m 0.13927380282742485m" data-normal="-0.2530542266444297m 0.18020359683707077m 0.9505210266292757m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Rib Facet</div>
+        </button><button class="Hotspot" slot="hotspot-3" data-position="-3.96753567633169m 27.21838574931307m 0.6225111944992736m" data-normal="0.2194848371255873m 0.13993992942621297m 0.9655274322483755m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Intervertebral discs</div>
+        </button><button class="Hotspot" slot="hotspot-4" data-position="-4.383047576346797m 21.67764756454608m 0.02948012737306749m" data-normal="-0.700217942698388m 0.3550491579167395m 0.6193826992949119m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Intervertebral foreamen</div>
+        </button><button class="Hotspot" slot="hotspot-5" data-position="-3.186151911409765m 17.612167510593434m 0.16189438232111925m" data-normal="-0.4055654242380032m 0.4722990256682465m 0.7825920501867326m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Spinous Process</div>
+        </button><button class="Hotspot" slot="hotspot-6" data-position="-2.1866126371945502m 13.343743153865084m 0.17235914457362192m" data-normal="-0.15616951677755153m 0.1458873206850591m 0.9768971141797895m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Transverse process</div>
+        </button><button class="Hotspot" slot="hotspot-7" data-position="-0.7735105979594072m 10.589430435126136m 1.71658935622965m" data-normal="-0.30805557530808386m -0.241995680044892m 0.9200760041220594m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Sacrum</div>
+        </button><button class="Hotspot" slot="hotspot-8" data-position="-1.855396212688004m 8.48681859048903m 0.1243383537471292m" data-normal="0.7871889022130336m -0.14171003196409807m 0.6002098791867505m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Coccygeal</div>
+        </button>
+        <div class="progress-bar hide" slot="progress-bar">
+            <div class="update-bar"></div>
+        </div>
+    </model-viewer>    
+        <div class="progress-bar hide" slot="progress-bar">
+          <div class="update-bar"></div>
+        </div>
+        <button slot="ar-button" id="ar-button">View in your space</button>
+        <div id="ar-prompt">
+          <img src="https://modelviewer.dev/shared-assets/icons/hand.png" />
+        </div>
+      </model-viewer>
+      <script
+        type="module"
+        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+      ></script>
+      <script>
+        const modelViewer = document.querySelector("model-viewer");
+
+        const annotationClicked = (annotation) => {
+          let dataset = annotation.dataset;
+          modelViewer.cameraTarget = dataset.position;
+          modelViewer.cameraOrbit = dataset.normal;
+          modelViewer.fieldOfView = "45deg";
+        };
+
+        const highlightPart = (Name) => {
+          modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+            if (
+              hotspot.querySelector(".HotspotAnnotation").textContent === Name
+            ) {
+              hotspot.classList.add("highlighted");
+              annotationClicked(hotspot);
+            } else {
+              hotspot.classList.remove("highlighted");
+              hotspot.style.display = "none"; // Hide non-matching annotations
+            }
+          });
+        };
+
+        document
+          .getElementById("highlight-input")
+          .addEventListener("input", (event) => {
+            let Name = event.target.value;
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.style.display = "block"; // Show all annotations
+            });
+            highlightPart(Name);
+          });
+
+        document
+          .getElementById("reset-button")
+          .addEventListener("click", () => {
+            document.getElementById("highlight-input").value = ""; // Clear the input field
+            modelViewer.cameraOrbit = "0deg 75deg 2m"; // Reset camera position
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.classList.remove("highlighted"); // Reset all annotations
+              hotspot.style.display = "block"; // Show all annotations
+            });
+          });
+      </script>
+    </div>
+  </body>
+</html>
