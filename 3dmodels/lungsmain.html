@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HUMAN LUNGS MAIN 3D MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="demo-styles.css" />
+    <script
+      src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js"
+      defer
+    ></script>
+    <style>
+      #highlight-input {
+            margin-bottom: 20px;
+            padding: 5px;
+            width: calc(100% - 90px);
+        }
+
+        #reset-button {
+            padding: 5px 10px;
+            width : 50px
+        }
+
+        .highlighted .HotspotAnnotation {
+            background-color: red !important;
+            color: white !important;
+            border: 1px solid red !important; /* Add border to highlighted button */
+        }
+
+        .HotspotAnnotation {
+            background-color: white;
+            color: black;
+            padding: 5px;
+        }
+
+        /* Card styling */
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin-top: 10px;
+            text-align: left; /* Align text to the left */
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .card p {
+            margin-bottom: 0;
+        }
+
+        /* Center align the model */
+        model-viewer {
+            margin: 0 auto;
+            max-width: 400px; /* Set the maximum width */
+            width: 100%; /* Ensure the model viewer takes full width */
+        }
+    </style>
+  </head>
+  <body>
+    <div class="mycontainer">
+    <div id="card">
+      <input type="text" id="highlight-input" placeholder="Enter part name" />
+      <button id="reset-button">Reset</button>
+      <div class="side-by-side">
+      <model-viewer src="realistic_human_lungs.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="1">
+        <button class="Hotspot" slot="hotspot-1" data-position="0.0021663439216671482m 0.27431567023699477m -0.014659073114070421m" data-normal="0.10301041125749627m -0.25249466796477393m 0.962099422004774m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Trachea</div>
+        </button><button class="Hotspot" slot="hotspot-4" data-position="0.01620348531453161m 0.12889822393932968m -0.03867186676234336m" data-normal="0.06656084764200404m 0.24126820491016965m 0.9681731802010437m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Bronchi</div>
+        </button><button class="Hotspot" slot="hotspot-5" data-position="0.07738994143525305m 0.05865007361917146m 0.00855470193604297m" data-normal="0.09128141289792209m 0.13487456975367504m 0.9866491545088965m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Left Lobe</div>
+        </button><button class="Hotspot" slot="hotspot-6" data-position="-0.09625706676430171m 0.06524010444828059m -0.028126788321276568m" data-normal="-0.8950147752123329m 0.2304075672554842m 0.3819174061273288m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Lobar Bronchus</div>
+        </button>
+        <div class="progress-bar hide" slot="progress-bar">
+          <div class="update-bar"></div>
+        </div>
+        <button slot="ar-button" id="ar-button">View in your space</button>
+        <div id="ar-prompt">
+          <img src="https://modelviewer.dev/shared-assets/icons/hand.png" />
+        </div>
+      </model-viewer>
+      <!-- <span>Hello</span> -->
+      <div id="part-info"></div>
+    </div>
+    </div> 
+      <script
+        type="module"
+        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+      ></script>
+      <script>
+        const modelViewer = document.querySelector("model-viewer");
+
+        const annotationClicked = (annotation) => {
+          let dataset = annotation.dataset;
+          modelViewer.cameraTarget = dataset.position;
+          modelViewer.cameraOrbit = dataset.normal;
+          modelViewer.fieldOfView = "45deg";
+        };
+
+        const highlightPart = (Name) => {
+          modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+            if (
+              hotspot.querySelector(".HotspotAnnotation").textContent === Name
+            ) {
+              hotspot.classList.add("highlighted");
+              annotationClicked(hotspot);
+              displayPartInfo(Name)
+            } else {
+              hotspot.classList.remove("highlighted");
+              hotspot.style.display = "none"; // Hide non-matching annotations
+            }
+          });
+        };
+
+        
+    const displayPartInfo = (partName) => {
+        const partInfo = {
+            "Trachea":`The trachea, commonly known as the windpipe, is a vital part of the respiratory system. It is a tubular structure composed of cartilage rings and soft tissue that extends from the lower part of the larynx, or voice box, down to the bronchi, which are the two main airways that lead into the lungs. The trachea serves as a passageway for air to travel between the external environment and the lungs. Its walls are lined with a mucous membrane and cilia, which help to trap and remove dust, bacteria, and other foreign particles from the air before it reaches the lungs. The trachea also contains smooth muscle tissue, allowing it to contract and expand to regulate the flow of air. In addition to its role in respiration, the trachea plays a crucial role in producing sound during speech by allowing air to pass over the vocal cords in the larynx.`,
+
+            "Bronchi": `
+
+            The bronchi are the large airways that branch off from the trachea, or windpipe, into the lungs. They are part of the respiratory system and play a crucial role in the process of breathing. The bronchi are lined with ciliated epithelial cells and mucus-producing goblet cells, which work together to trap and remove dust, bacteria, and other particles from the air we breathe. The bronchi further divide into smaller tubes called bronchioles, which lead to tiny air sacs called alveoli where gas exchange occurs. The bronchi also contain smooth muscle that helps to regulate the size of the airways, allowing for the control of airflow into and out of the lungs. Disorders such as asthma and chronic bronchitis can affect the bronchi, leading to inflammation, increased mucus production, and narrowing of the airways, which can cause breathing difficulties.`,
+
+            "Left Lobe":`
+The left lobe of the cerebellum, also known as the left cerebellar hemisphere, is a vital part of the brain that plays a crucial role in coordinating and controlling movements on the right side of the body. It receives information from the motor areas of the cerebral cortex, which is responsible for initiating voluntary movements. The left cerebellar hemisphere then processes this information to ensure that movements are smooth, coordinated, and precise. Additionally, the left lobe of the cerebellum is involved in motor learning, helping individuals acquire new motor skills through practice and repetition. Damage to the left cerebellar hemisphere can result in difficulties with motor coordination and movement on the right side of the body, leading to conditions such as ataxia. Overall, the left lobe of the cerebellum plays a crucial role in ensuring that movements are executed accurately and efficiently.`,
+
+            "Lobar Bronchus": `
+The lobar bronchi, also known as secondary bronchi, are branches of the main bronchi that further divide into bronchopulmonary segments within the lungs. They are named according to the lobes of the lungs they supply; the right lung has three lobes (upper, middle, and lower), each of which is served by a lobar bronchus, while the left lung, with its two lobes (upper and lower), has two corresponding lobar bronchi. These bronchi continue to branch into smaller bronchioles, eventually leading to the alveoli, where gas exchange occurs. The lobar bronchi play a crucial role in directing air into specific regions of the lungs, ensuring efficient ventilation and oxygenation of the blood. Any obstruction or inflammation in the lobar bronchi can lead to respiratory difficulties and compromise lung function.`
+
+        };
+
+        // Create a card with the information
+        let card = document.createElement("div");
+        card.classList.add("card");
+
+        let title = document.createElement("h3");
+        title.innerText = partName;
+        card.appendChild(title);
+
+        let info = document.createElement("p");
+        info.innerText = partInfo[partName] || "No information available";
+        card.appendChild(info);
+
+        // Clear previous card content
+        let partInfoDiv = document.getElementById("part-info");
+        partInfoDiv.innerHTML = "";
+        // Append the new card
+        partInfoDiv.appendChild(card);
+    };
+
+
+        document
+          .getElementById("highlight-input")
+          .addEventListener("input", (event) => {
+            let Name = event.target.value;
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.style.display = "block"; // Show all annotations
+            });
+            highlightPart(Name);
+          });
+
+        document
+          .getElementById("reset-button")
+          .addEventListener("click", () => {
+            document.getElementById("highlight-input").value = ""; // Clear the input field
+            modelViewer.cameraOrbit = "0deg 75deg 2m"; // Reset camera position
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.classList.remove("highlighted"); // Reset all annotations
+              hotspot.style.display = "block"; // Show all annotations
+            });
+          });
+      </script>
+    </div>
+  </body>
+</html>

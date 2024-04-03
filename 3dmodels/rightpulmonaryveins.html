@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>RIGHT PULMONARY VEINS 3D MODEL</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="demo-styles.css">
+  <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
+</head>
+<body>
+    <div id="card">
+        <model-viewer src="Beating heart.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="1" autoplay  camera-orbit="-25.67deg 92.61deg 0.3708m" field-of-view="25.06deg" min-camera-orbit="auto auto 0.3708m" min-field-of-view="25.06deg" alt = "the heart is Beating" id="animation-demo" interpolation-decay="200" shadow-intensity="0.5">
+        <button class="Hotspot" slot="hotspot-7" data-surface="0 0 15806 15807 16153 0.241 0.241 0.518" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Right Pulmonary Veins</div>
+        </button>
+          <div class="progress-bar hide" slot="progress-bar">
+              <div class="update-bar"></div>
+          </div>
+          <button slot="ar-button" id="ar-button">
+              View in your space
+          </button>
+          <div id="ar-prompt">
+              <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
+          </div>
+      </model-viewer>
+      <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</body>
+</html>

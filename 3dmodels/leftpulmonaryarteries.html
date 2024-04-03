@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>LEFT PULMONARY ARTERIES 3D MODEL</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="demo-styles.css">
+  <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
+</head>
+<body>
+    <div id="card">
+        <model-viewer src="Beating heart.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="2" autoplay camera-orbit="-25deg 71.45deg 0.3708m" field-of-view="25.06deg" min-camera-orbit="auto auto 0.3708m" min-field-of-view="25.06deg" alt = "the heart is Beating" id="animation-demo" interpolation-decay="200" shadow-intensity="0.5">
+        <button class="Hotspot" slot="hotspot-2" data-surface="0 0 17262 17254 17265 0.044 0.157 0.799" data-visibility-attribute="visible"></button>
+          <div class="progress-bar hide" slot="progress-bar">
+              <div class="update-bar"></div>
+          </div>
+          <button slot="ar-button" id="ar-button">
+              View in your space
+          </button>
+          <div id="ar-prompt">
+              <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
+          </div>
+      </model-viewer>
+</body>

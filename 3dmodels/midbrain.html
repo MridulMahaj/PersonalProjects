@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>MIDBRAIN 3D MODEL</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="demo-styles.css">
+  <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
+</head>
+<body>
+  <div id="card">
+<model-viewer src="Brain1.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce" shadow-intensity="1" camera-orbit="12.91deg 142.2deg 3.637m" field-of-view="30deg" camera-target="-0.5m 0.4273m -5.685e-8m">
+    <button class="Hotspot" slot="hotspot-4" data-position="-0.02868644869499093m 0.3969361004294726m 0.08287551012210873m" data-normal="0.30928110386203833m -0.7703335514903791m 0.5576122472131496m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Midbrain</div>
+    </button>
+    <div class="progress-bar hide" slot="progress-bar">
+        <div class="update-bar"></div>
+    </div>
+    <button slot="ar-button" id="ar-button">
+        View in your space
+    </button>
+    <div id="ar-prompt">
+        <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
+    </div>
+</model-viewer>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</body>
+</html>

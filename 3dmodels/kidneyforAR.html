@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KIDNEY 3D MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="demo-styles.css" />
+    <script
+      src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js"
+      defer
+    ></script>
+    <style>
+      #highlight-input {
+        margin-bottom: 20px;
+        padding: 5px;
+        width: calc(100% - 90px);
+      }
+      #reset-button {
+        padding: 5px 10px;
+        margin-left: 5px;
+      }
+      .highlighted .HotspotAnnotation {
+        background-color: red !important;
+        color: white !important;
+        border: 1px solid red !important; /* Add border to highlighted button */
+      }
+      .HotspotAnnotation {
+        background-color: white;
+        color: black;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="card">
+      <input type="text" id="highlight-input" placeholder="Enter part name" />
+      <button id="reset-button">Reset</button>
+      <model-viewer src="https://cdn.glitch.me/7e914bde-0384-4e55-9a0e-b09de95dd513/kidney.glb?v=1712062230432" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="1" autoplay environment-image="legacy" camera-orbit="0deg 75deg 0.4074m" field-of-view="30deg">
+        <button class="Hotspot" slot="hotspot-1" data-position="-1.11224075057401m 6.857438190608499m -0.08421569566477705m" data-normal="-0.0792745884339784m -0.07667869123285628m 0.9938993500045363m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Renal Column</div>
+        </button><button class="Hotspot" slot="hotspot-2" data-position="-0.2002807300801095m 7.786444108929187m 0.10802058370449513m" data-normal="-0.04336439757068189m -0.010154470933326856m 0.9990077155574908m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Medullary Pyramid</div>
+        </button><button class="Hotspot" slot="hotspot-3" data-position="-2.3322069609417997m 5.854336195724402m -0.06842839146208099m" data-normal="0.1980438500277384m 0.5906927551965118m 0.7822152532548472m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Calyx</div>
+        </button><button class="Hotspot" slot="hotspot-4" data-position="2.306011879224217m 3.681115554416074m 0.850389923718123m" data-normal="0.013747718820414515m 0.42606645058531684m 0.9045874086636762m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Renal Artery</div>
+        </button><button class="Hotspot" slot="hotspot-5" data-position="1.38311943673316m 2.771208675797672m 1.5676867061654185m" data-normal="0.7494975231243778m -0.34013581955357486m 0.5679446162145045m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Renal Vein</div>
+        </button><button class="Hotspot" slot="hotspot-6" data-position="-1.6138393489918954m 3.91952107051096m -0.06212228058835835m" data-normal="0.3411382657027025m -0.5135213904038562m 0.787350281177979m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Pelvis</div>
+        </button><button class="Hotspot" slot="hotspot-7" data-position="0.21278498125776113m 0.38083876684692486m -0.12138977558901308m" data-normal="-0.026705165489384314m 0.011856527709077353m 0.9995730372948585m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Ureter</div>
+        </button><button class="Hotspot" slot="hotspot-8" data-position="-0.5355383431338759m 1.5392083351160988m 0.02690495829665046m" data-normal="0.016412680221124885m 0.018506469454007173m 0.99969402044641m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Renal Capsule</div>
+        </button><button class="Hotspot" slot="hotspot-9" data-position="-3.024281687685363m 0.39327461563163446m 0.10544303968406428m" data-normal="-0.09557862556871005m -0.021276066514247755m 0.9951944811583702m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Cortex</div>
+        </button>
+        <div class="progress-bar hide" slot="progress-bar">
+            <div class="update-bar"></div>
+        </div>
+    </model-viewer>    
+        <div class="progress-bar hide" slot="progress-bar">
+          <div class="update-bar"></div>
+        </div>
+        <button slot="ar-button" id="ar-button">View in your space</button>
+        <div id="ar-prompt">
+          <img src="https://modelviewer.dev/shared-assets/icons/hand.png" />
+        </div>
+      </model-viewer>
+      <script
+        type="module"
+        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+      ></script>
+      <script>
+        const modelViewer = document.querySelector("model-viewer");
+
+        const annotationClicked = (annotation) => {
+          let dataset = annotation.dataset;
+          modelViewer.cameraTarget = dataset.position;
+          modelViewer.cameraOrbit = dataset.normal;
+          modelViewer.fieldOfView = "45deg";
+        };
+
+        const highlightPart = (Name) => {
+          modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+            if (
+              hotspot.querySelector(".HotspotAnnotation").textContent === Name
+            ) {
+              hotspot.classList.add("highlighted");
+              annotationClicked(hotspot);
+            } else {
+              hotspot.classList.remove("highlighted");
+              hotspot.style.display = "none"; // Hide non-matching annotations
+            }
+          });
+        };
+
+        document
+          .getElementById("highlight-input")
+          .addEventListener("input", (event) => {
+            let Name = event.target.value;
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.style.display = "block"; // Show all annotations
+            });
+            highlightPart(Name);
+          });
+
+        document
+          .getElementById("reset-button")
+          .addEventListener("click", () => {
+            document.getElementById("highlight-input").value = ""; // Clear the input field
+            modelViewer.cameraOrbit = "0deg 75deg 2m"; // Reset camera position
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.classList.remove("highlighted"); // Reset all annotations
+              hotspot.style.display = "block"; // Show all annotations
+            });
+          });
+      </script>
+    </div>
+  </body>
+</html>

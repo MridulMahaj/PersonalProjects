@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRAIN MAIN 3D MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="demo-styles.css">
+    <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
+</head>
+<body>
+    <label for="userinput">Enter a case:</label>
+    <input type="text" id="userinput" name="userinput" id="heartinput"><br>
+    <div id="card">
+    <model-viewer src="Brain1.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="1">
+        <button class="Hotspot" slot="hotspot-2" data-position="0.12285430091538463m 0.134205664705885m -0.3621027134469438m" data-normal="0.27473403822723647m -0.5623075328233703m -0.7799560543834826m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Cerebellum</div>
+        </button><button class="Hotspot" slot="hotspot-3" data-position="0.14331785984326176m 0.7046582555883889m 0.3883417919149327m" data-normal="-0.003365238988293912m 0.5888552504805048m 0.8082315071488453m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Left Cerebral Hemisphere</div>
+        </button><button class="Hotspot" slot="hotspot-5" data-position="-0.24794339529791026m 0.6735067319664574m 0.30335171345630785m" data-normal="-0.5138601028133606m 0.7494526348170489m 0.417454839356817m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Right Cerebral Hemisphere</div>
+        </button><button class="Hotspot" slot="hotspot-6" data-position="-0.004382603174603983m 0.2645489633831153m 0.05062304707479767m" data-normal="0.16033782377855693m -0.5107281727159404m 0.8446588162448747m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Pons</div>
+        </button><button class="Hotspot" slot="hotspot-7" data-position="0.007802368471320403m 0.06787146626515983m 0.02252883614316817m" data-normal="-0.06961985177756191m -0.06468825790364433m 0.9954740104733333m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Medulla Oblongata</div>
+        </button><button class="Hotspot" slot="hotspot-8" data-position="-0.007289017490416078m 0.40668704158147007m 0.085853888228306m" data-normal="0.23386454408622515m -0.7513833118676101m 0.6170336244210716m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Midbrain</div>
+        </button>
+        <div class="progress-bar hide" slot="progress-bar">
+            <div class="update-bar"></div>
+        </div>
+        <button slot="ar-button" id="ar-button">
+            View in your space
+        </button>
+        <div id="ar-prompt">
+            <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
+        </div>
+    </model-viewer>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</body>
+</html>

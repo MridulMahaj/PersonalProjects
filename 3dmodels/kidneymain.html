@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KIDNEY MAIN 3D MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="demo-styles.css" />
+    <script
+      src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js"
+      defer
+    ></script>
+    <style>
+     #highlight-input {
+            margin-bottom: 20px;
+            padding: 5px;
+            width: calc(100% - 90px);
+        }
+
+        #reset-button {
+            padding: 5px 10px;
+            width : 50px
+        }
+
+        .highlighted .HotspotAnnotation {
+            background-color: red !important;
+            color: white !important;
+            border: 1px solid red !important; /* Add border to highlighted button */
+        }
+
+        .HotspotAnnotation {
+            background-color: white;
+            color: black;
+            padding: 5px;
+        }
+
+        /* Card styling */
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin-top: 10px;
+            text-align: left; /* Align text to the left */
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .card p {
+            margin-bottom: 0;
+        }
+
+        /* Center align the model */
+        model-viewer {
+            margin: 0 auto;
+            max-width: 400px; /* Set the maximum width */
+            width: 100%; /* Ensure the model viewer takes full width */
+        }
+    </style>
+  </head>
+  <body>
+    <div class="mycontainer">
+    <div id="card">
+      <input type="text" id="highlight-input" placeholder="Enter part name" />
+      <button id="reset-button">Reset</button>
+      <div class="side-by-side">
+      <model-viewer src="kidney.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="1">
+    <button class="Hotspot" slot="hotspot-1" data-position="-1.11224075057401m 6.857438190608499m -0.08421569566477705m" data-normal="-0.0792745884339784m -0.07667869123285628m 0.9938993500045363m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Renal Column</div>
+    </button><button class="Hotspot" slot="hotspot-2" data-position="-0.2002807300801095m 7.786444108929187m 0.10802058370449513m" data-normal="-0.04336439757068189m -0.010154470933326856m 0.9990077155574908m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Medullary Pyramid</div>
+    </button><button class="Hotspot" slot="hotspot-3" data-position="-2.3322069609417997m 5.854336195724402m -0.06842839146208099m" data-normal="0.1980438500277384m 0.5906927551965118m 0.7822152532548472m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Calyx</div>
+    </button><button class="Hotspot" slot="hotspot-4" data-position="2.306011879224217m 3.681115554416074m 0.850389923718123m" data-normal="0.013747718820414515m 0.42606645058531684m 0.9045874086636762m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Renal Artery</div>
+    </button><button class="Hotspot" slot="hotspot-5" data-position="1.38311943673316m 2.771208675797672m 1.5676867061654185m" data-normal="0.7494975231243778m -0.34013581955357486m 0.5679446162145045m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Renal Vein</div>
+    </button><button class="Hotspot" slot="hotspot-6" data-position="-1.6138393489918954m 3.91952107051096m -0.06212228058835835m" data-normal="0.3411382657027025m -0.5135213904038562m 0.787350281177979m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Pelvis</div>
+    </button><button class="Hotspot" slot="hotspot-7" data-position="0.21278498125776113m 0.38083876684692486m -0.12138977558901308m" data-normal="-0.026705165489384314m 0.011856527709077353m 0.9995730372948585m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Ureter</div>
+    </button><button class="Hotspot" slot="hotspot-8" data-position="-0.5355383431338759m 1.5392083351160988m 0.02690495829665046m" data-normal="0.016412680221124885m 0.018506469454007173m 0.99969402044641m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Renal Capsule</div>
+    </button><button class="Hotspot" slot="hotspot-9" data-position="-3.024281687685363m 0.39327461563163446m 0.10544303968406428m" data-normal="-0.09557862556871005m -0.021276066514247755m 0.9951944811583702m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Cortex</div>
+    </button>
+    <div class="progress-bar hide" slot="progress-bar">
+      <div class="update-bar"></div>
+    </div>
+    <button slot="ar-button" id="ar-button">View in your space</button>
+    <div id="ar-prompt">
+      <img src="https://modelviewer.dev/shared-assets/icons/hand.png" />
+    </div>
+  </model-viewer>
+  <!-- <span>Hello</span> -->
+  <div id="part-info"></div>
+</div>
+</div>
+      <script
+        type="module"
+        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+      ></script>
+      <script>
+        const modelViewer = document.querySelector("model-viewer");
+
+        const annotationClicked = (annotation) => {
+          let dataset = annotation.dataset;
+          modelViewer.cameraTarget = dataset.position;
+          modelViewer.cameraOrbit = dataset.normal;
+          modelViewer.fieldOfView = "45deg";
+        };
+
+        const highlightPart = (Name) => {
+          modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+            if (
+              hotspot.querySelector(".HotspotAnnotation").textContent === Name
+            ) {
+              hotspot.classList.add("highlighted");
+              annotationClicked(hotspot);
+              displayPartInfo(Name);
+            } else {
+              hotspot.classList.remove("highlighted");
+              hotspot.style.display = "none"; // Hide non-matching annotations
+            }
+          });
+        };
+
+        const displayPartInfo = (partName) => {
+        const partInfo = {
+            "Renal Column ": `
+
+            
+The renal columns, also known as Bertin columns, are extensions of cortical tissue that project into the medulla of the kidney, dividing it into pyramids. These columns serve as supportive structures, containing blood vessels and urinary tubules that transport fluid to and from the nephrons, the functional units of the kidney. The renal columns provide a pathway for the vasculature and tubules to travel between the cortex and medulla, ensuring efficient filtration and reabsorption processes. Additionally, the renal columns play a role in maintaining the structural integrity of the kidney, providing support and anchorage for the nephrons. They also contribute to the overall blood supply of the kidney, as they contain branches of the renal artery and vein that supply and drain the kidney's tissues. The presence of well-developed renal columns is essential for the proper functioning of the kidney, as they facilitate the exchange of substances necessary for maintaining homeostasis within the body.`,
+
+            "Medullary Pyramid": `
+The medullary pyramid, located in the medulla oblongata of the brainstem, is a prominent structure that contains the corticospinal tracts, also known as the pyramidal tracts. These tracts are crucial for the voluntary control of movement, as they carry motor fibers from the cerebral cortex to the spinal cord. The medullary pyramid is named for its triangular shape, which is formed by the convergence of these motor fibers as they descend through the brainstem. Within the pyramid, the fibers undergo a partial decussation, or crossing over, where fibers from the left hemisphere of the brain cross to the right side of the spinal cord, and vice versa. This crossover is why the left hemisphere of the brain controls the right side of the body, and the right hemisphere controls the left side. Damage to the medullary pyramid can result in motor deficits, such as weakness or paralysis, on the opposite side of the body from the injury. Understanding the medullary pyramid's role is essential for grasping the complex pathways involved in motor function and provides insight into how the brain controls movement throughout the body.`,
+
+            "Calyx": `
+
+            
+The calyx, in botany, refers to the outermost whorl of a flower, typically green and leaf-like, that protects the flower bud before it opens. It is often mistaken for petals but serves a distinct protective function. The calyx can vary greatly in appearance and size depending on the plant species. In some flowers, the calyx is inconspicuous and falls off as the flower blooms, while in others, it remains prominent even after the flower has fully opened. The calyx plays a crucial role in protecting the delicate inner parts of the flower during development and often serves as a support structure for the petals. Additionally, the calyx can also play a role in attracting pollinators to the flower, either through its color, shape, or the presence of nectar-producing glands.`,
+
+            "Renal Artery": `
+
+            
+The renal artery is a vital blood vessel that supplies oxygenated blood to the kidneys, playing a crucial role in maintaining kidney function and overall health. Arising from the abdominal aorta, the renal artery branches off and enters each kidney, where it further divides into smaller arterioles that eventually lead to the nephrons, the functional units of the kidneys. Within the nephrons, blood is filtered to remove waste products and excess fluids, which are then excreted as urine. The renal artery also helps regulate blood pressure by secreting hormones such as renin, which plays a role in the renin-angiotensin-aldosterone system, helping to maintain blood volume and pressure. Disorders affecting the renal artery, such as stenosis (narrowing) or thrombosis (blockage), can lead to serious complications, including hypertension and kidney failure, underscoring the artery's critical role in maintaining kidney health and overall homeostasis.`,
+
+            "Pelvis": `
+
+            The pelvis is a bony structure located at the base of the spine, between the abdomen and the legs. It consists of several bones, including the sacrum, coccyx, and two hip bones (or innominate bones), which are composed of the ilium, ischium, and pubis. The pelvis serves several important functions in the body. It supports the weight of the upper body when sitting and standing, provides attachment points for muscles that help to stabilize the spine, and protects the internal organs in the pelvic cavity, such as the bladder, reproductive organs, and part of the large intestine. The pelvis also plays a crucial role in childbirth, as it must expand to allow the baby to pass through the birth canal. Additionally, the pelvis differs between males and females, with the female pelvis being wider and more rounded to accommodate childbirth, while the male pelvis is narrower and more compact.`,
+
+
+            "Ureter": `
+
+            
+The ureter is a narrow tube-like structure that plays a crucial role in the urinary system by transporting urine from the kidneys to the bladder. Each person has two ureters, one connected to each kidney. The ureters are lined with smooth muscle that contracts rhythmically to push urine down towards the bladder, a process known as peristalsis. The walls of the ureters also contain specialized valves that prevent urine from flowing back up towards the kidneys. The ureters are about 25-30 cm long and are capable of expanding to accommodate the flow of urine. However, if a kidney stone or other obstruction blocks the flow of urine, it can cause intense pain and potentially lead to serious complications. Overall, the ureters play a crucial role in maintaining proper urinary function and health.`,
+
+            "Renal Capsule": `
+
+            
+The renal capsule is a tough, fibrous layer that surrounds each kidney and provides it with protection and support. It is the outermost layer of the kidney, located just beneath the perirenal fat and renal fascia. The renal capsule helps to maintain the shape of the kidney and prevents it from being compressed by surrounding structures. It also serves as a barrier, helping to prevent infections and the spread of diseases to the kidney. The renal capsule is tightly adhered to the surface of the kidney and is composed mainly of collagen fibers. It is important for maintaining the integrity and function of the kidney, and any damage to the renal capsule can lead to complications such as infections or trauma to the kidney.`,
+
+            "Cortex":`
+
+            The renal cortex, also known as the cortex kidney, is the outer region of the kidney that lies beneath the renal capsule and surrounds the renal medulla. It contains millions of functional units called nephrons, which are responsible for filtering the blood and producing urine. The cortex is where the initial stages of urine formation occur, including filtration, reabsorption, and secretion. Blood enters the kidney through the renal artery, which branches into smaller arterioles that eventually lead to the glomeruli, clusters of capillaries where filtration takes place. The filtered blood then flows into the peritubular capillaries, where reabsorption of water, glucose, and other essential substances occurs. Any excess waste and fluids that are not reabsorbed are collected in the renal tubules and eventually excreted as urine. The renal cortex is crucial for maintaining the body's fluid balance, electrolyte levels, and pH balance, making it a vital component of the urinary system.`
+
+        };
+
+        // Create a card with the information
+        let card = document.createElement("div");
+        card.classList.add("card");
+
+        let title = document.createElement("h3");
+        title.innerText = partName;
+        card.appendChild(title);
+
+        let info = document.createElement("p");
+        info.innerText = partInfo[partName] || "No information available";
+        card.appendChild(info);
+
+        // Clear previous card content
+        let partInfoDiv = document.getElementById("part-info");
+        partInfoDiv.innerHTML = "";
+        // Append the new card
+        partInfoDiv.appendChild(card);
+    };
+
+
+        document
+          .getElementById("highlight-input")
+          .addEventListener("input", (event) => {
+            let Name = event.target.value;
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.style.display = "block"; // Show all annotations
+            });
+            highlightPart(Name);
+          });
+
+        document
+          .getElementById("reset-button")
+          .addEventListener("click", () => {
+            document.getElementById("highlight-input").value = ""; // Clear the input field
+            modelViewer.cameraOrbit = "0deg 75deg 2m"; // Reset camera position
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.classList.remove("highlighted"); // Reset all annotations
+              hotspot.style.display = "block"; // Show all annotations
+            });
+          });
+      </script>
+    </div>
+  </body>
+</html>

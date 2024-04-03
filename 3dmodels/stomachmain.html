@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STOMACH MAIN 3D MODEL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="demo-styles.css" />
+    <script
+      src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js"
+      defer
+    ></script>
+    <style>
+      #highlight-input {
+        margin-bottom: 20px;
+        padding: 5px;
+        width: calc(100% - 90px);
+      }
+      #reset-button {
+        padding: 5px 10px;
+        margin-left: 5px;
+      }
+      .highlighted .HotspotAnnotation {
+        background-color: red !important;
+        color: white !important;
+        border: 1px solid red !important; /* Add border to highlighted button */
+      }
+      .HotspotAnnotation {
+        background-color: white;
+        color: black;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="card">
+      <input type="text" id="highlight-input" placeholder="Enter part name" />
+      <button id="reset-button">Reset</button>
+      <model-viewer src="realistic_human_stomach.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce"  shadow-intensity="1">
+        <button class="Hotspot" slot="hotspot-1" data-position="0.005535475839503746m 0.8650452071985926m -0.07762885173913227m" data-normal="0.2835730097472727m -0.10612718473733923m 0.953060002729419m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Esophagus</div>
+        </button><button class="Hotspot" slot="hotspot-2" data-position="0.12223015572233026m 0.42339297512888097m 0.08030783448268294m" data-normal="0.8639382195798372m -0.10358194981345005m 0.4928301253191255m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Stomach</div>
+        </button><button class="Hotspot" slot="hotspot-5" data-position="-0.08259596537923578m 0.192803505945024m 0.04401753899212654m" data-normal="-0.19305181809089692m 0.3757145424958366m 0.9064047540083534m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Small Intestine</div>
+        </button><button class="Hotspot" slot="hotspot-7" data-position="0.15804964496533047m 0.28711971408274795m 0.07167658095354443m" data-normal="-0.17352148574336784m -0.11069569237083719m 0.9785891669520745m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Large Intestine</div>
+        </button><button class="Hotspot" slot="hotspot-11" data-position="-0.09932653243387066m 0.1039272099110391m 0.03385183086762567m" data-normal="-0.35091439737937424m 0.19367125882991965m 0.9161607551162104m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Appendix</div>
+        </button><button class="Hotspot" slot="hotspot-12" data-position="0.011006514367612158m 0.021430397493693354m 0.017259717350808744m" data-normal="0.4996280659331752m -0.7458099433252302m 0.44061244214058665m" data-visibility-attribute="visible">
+            <div class="HotspotAnnotation">Anus</div>
+        </button>
+        <div class="progress-bar hide" slot="progress-bar">
+            <div class="update-bar"></div>
+        </div>
+        <button slot="ar-button" id="ar-button">
+            View in your space
+        </button>
+        <div id="ar-prompt">
+            <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
+        </div>
+    </model-viewer>
+      <script
+        type="module"
+        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+      ></script>
+      <script>
+        const modelViewer = document.querySelector("model-viewer");
+
+        const annotationClicked = (annotation) => {
+          let dataset = annotation.dataset;
+          modelViewer.cameraTarget = dataset.position;
+          modelViewer.cameraOrbit = dataset.normal;
+          modelViewer.fieldOfView = "45deg";
+        };
+
+        const highlightPart = (Name) => {
+          modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+            if (
+              hotspot.querySelector(".HotspotAnnotation").textContent === Name
+            ) {
+              hotspot.classList.add("highlighted");
+              annotationClicked(hotspot);
+            } else {
+              hotspot.classList.remove("highlighted");
+              hotspot.style.display = "none"; // Hide non-matching annotations
+            }
+          });
+        };
+
+        document
+          .getElementById("highlight-input")
+          .addEventListener("input", (event) => {
+            let Name = event.target.value;
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.style.display = "block"; // Show all annotations
+            });
+            highlightPart(Name);
+          });
+
+        document
+          .getElementById("reset-button")
+          .addEventListener("click", () => {
+            document.getElementById("highlight-input").value = ""; // Clear the input field
+            modelViewer.cameraOrbit = "0deg 75deg 2m"; // Reset camera position
+            modelViewer.querySelectorAll(".Hotspot").forEach((hotspot) => {
+              hotspot.classList.remove("highlighted"); // Reset all annotations
+              hotspot.style.display = "block"; // Show all annotations
+            });
+          });
+      </script>
+    </div>
+  </body>
+</html>
